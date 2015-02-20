@@ -1,3 +1,5 @@
 /vendor
 /node_modules
 .env
+laravel5.sublime-project
+laravel5.sublime-workspace
