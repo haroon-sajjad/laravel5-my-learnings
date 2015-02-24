@@ -42,7 +42,16 @@
 		</div>
 	</nav>
 
-	@yield('content')
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-8">
+				@yield('content')
+			</div>
+			<div class="col-sm-4">
+				@yield('sidebar')
+			</div>
+		</div>
+	</div>
 
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

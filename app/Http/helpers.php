@@ -1,4 +1,4 @@
-<<?php 
+<?php 
 
 function delete_form($params, $label) 
 {

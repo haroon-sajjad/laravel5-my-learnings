@@ -43,4 +43,10 @@ Route::resource('songs', 'SongsController', [
 	]
 ]);
 
-/*Route::get('books', 'BooksController@index');*/
+Route::bind('articles', function($slug)
+{
+	return App\Article::whereSlug($slug)->first();
+});
+Route::resource('articles', 'ArticlesController', [
+	'names' => []
+]);
