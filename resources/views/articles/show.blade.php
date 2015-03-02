@@ -6,9 +6,13 @@
 			<div class="page-header">
 				<h1>{{$article->title}}</h1>
 				<p>
-					{{$article->created_at}}
+					{{$article->published_at}}
 					<a href="#">{{$article->author}}</a>
 				</p>
+				<div class="btn-group" role="group" aria-label="...">
+					{!! link_to_route('articles.edit', 'Edit', [$article->id], ['class' => 'btn btn-primary btn-xs'])!!}
+					{!! link_to_route('articles.destroy', 'Delete', [$article->id], ['class' => 'btn btn-danger btn-xs'])!!}
+				</div>
 			</div>
 		</div>
 	</div>

@@ -2,7 +2,7 @@
 
 use App\Http\Requests\Request;
 
-class CreateArticleRequest extends Request {
+class ArticleRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -22,10 +22,11 @@ class CreateArticleRequest extends Request {
 	public function rules()
 	{
 		return [
-			'title' => 'required',
-			'slug' => 'required|unique:articles,slug',
-			'author' => 'required',
-			'post' => 'required'
+			'title' => 'required|min:3',
+			//'slug' => 'required|unique:articles,slug',
+			'slug' => 'required',
+			'post' => 'required',
+			'published_at' => 'required|date'
 		];
 	}
 

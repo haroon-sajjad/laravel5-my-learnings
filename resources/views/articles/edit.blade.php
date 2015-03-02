@@ -4,15 +4,15 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="page-header">
-				<h1>Create New Article</h1>
+				<h1>Edit <q>{{$article->title}}</q></h1>
 				<p>More precise, well described, efficient in reading, and properly highlighted.</p>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-12">
-			{!! Form::open(['route' => 'articles.store']) !!}
-				@include('articles.partials.form', ['submitBtnTxt' => 'Create Article'])
+			{!! Form::model($article, ['url' => route('articles.update', [$article->slug]), 'method' => 'PATCH']) !!}
+				@include('articles.partials.form', ['submitBtnTxt' => 'Update Article'])
 			{!! Form::close() !!}
 		</div>
 	</div>

@@ -5,14 +5,21 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use App\Article;
-use \App\Http\Requests\CreateArticleRequest;
+use \App\Article;
+use \App\Http\Requests\ArticleRequest;
+use \Carbon\Carbon;
 
 class ArticlesController extends Controller {
 
 	private $article;
 
-	public function __construct(Article $article) {
+	public function __construct() 
+	{
+		$this->middleware('auth', ['only' => 'create']);
+	}
+
+	public function __construct(Article $article) 
+	{
 		$this->article = $article;
 	}
 
@@ -21,9 +28,19 @@ class ArticlesController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(Article $articles)
+	public function index($user = null)
 	{
-		$articles = $this->article->get();
+		if( !is_null( $user ) ) {
+			$userO = \App\User::where('name', $user)->first();
+			$articles = $userO->articles;
+		}
+		else {
+		//$articles = $this->article->get();
+		$articles = $this->article
+						->latest('published_at')
+						->published()
+						->get();
+		}
 		return view('articles.index', compact('articles'));
 	}
 
@@ -32,7 +49,7 @@ class ArticlesController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create(Request $request)
+	public function create()
 	{
 		return view('articles.create');
 	}
@@ -42,9 +59,10 @@ class ArticlesController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Article $article, CreateArticleRequest $request)
+	public function store(Article $article, ArticleRequest $request)
 	{
-		$article->create($request->all());
+		//$article->create($request->all());
+		\Auth::user()->articles()->save( new Article( $request->all()) );
 
 		return redirect()->route('articles.index');
 	}
@@ -69,9 +87,9 @@ class ArticlesController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(Article $article)
 	{
-		//
+		return view('articles.edit', compact('article'));
 	}
 
 	/**
@@ -80,9 +98,11 @@ class ArticlesController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Article $article, ArticleRequest $request)
 	{
-		//
+		$article->update($request->all());
+
+		return redirect()->route('articles.index');
 	}
 
 	/**

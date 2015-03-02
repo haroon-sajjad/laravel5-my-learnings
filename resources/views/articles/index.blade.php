@@ -12,10 +12,14 @@
 	@if(count($articles)>0)
 		@foreach($articles as $article)
 			<h2>{!! link_to_route('articles.show', $article->title, [$article->slug]) !!}</h2>
-			<small>
-				{{$article->created_at}}
+			<p>
+				{{$article->published_at->diffForHumans()}}
 				<a href="#">{{$article->author}}</a>
-			</small>
+			</p>
+			<div class="btn-group" role="group" aria-label="...">
+				{!! link_to_route('articles.edit', 'Edit', [$article->slug], ['class' => 'btn btn-primary btn-xs'])!!}
+				{!! link_to_route('articles.destroy', 'Delete', [$article->slug], ['class' => 'btn btn-danger btn-xs'])!!}
+			</div>
 			<p>{!! $article->post !!}</p>
 			<hr />
 		@endforeach
