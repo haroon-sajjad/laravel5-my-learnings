@@ -30,6 +30,16 @@ class Article extends Eloquent {
 	{
 		$this->attributes['published_at'] = Carbon::createFromFormat('Y-m-d', $date);
 	}
+
+	/**
+	 * Mutator: Get the published_at attributes
+	 * 
+	 * @param $data
+	 */
+	public function getPublishedAtAttribute( $date )
+	{
+		return new Carbon($date);
+	}
 	
 	/**
 	 * Query Scope: Scope queries to articles that have been published.
@@ -59,6 +69,26 @@ class Article extends Eloquent {
 	public function user()
 	{
 		return $this->belongsTo('App\User');
+	}
+
+	/**
+	 * Get the tags associated with the given article.
+	 * 
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function tags()
+	{
+		return $this->belongsToMany('App\Tag')->withTimestamps();
+	}
+
+	/**
+	 * Get a list of tag ids associatead with current articles.
+	 *
+	 * @return mixed
+	 */
+	public function getTagListAttribute() 
+	{
+		return $this->tags->lists('id');
 	}
 
 }

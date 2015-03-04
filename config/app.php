@@ -145,8 +145,16 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
-
+		/**
+		 * Third Party Service Providers
+		 */
 		'Illuminate\Html\HtmlServiceProvider',
+		'Laracasts\Generators\GeneratorsServiceProvider',
+
+		/**
+		 * Custom Service Providers
+		 */
+		'App\Providers\ArticleComposerServiceProvider',
 	],
 
 	/*

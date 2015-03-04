@@ -9,16 +9,18 @@
 					{{$article->published_at}}
 					<a href="#">{{$article->author}}</a>
 				</p>
-				<div class="btn-group" role="group" aria-label="...">
-					{!! link_to_route('articles.edit', 'Edit', [$article->id], ['class' => 'btn btn-primary btn-xs'])!!}
-					{!! link_to_route('articles.destroy', 'Delete', [$article->id], ['class' => 'btn btn-danger btn-xs'])!!}
-				</div>
+				@if(\Auth::User()) 
+					{!! action_buttons($article, 'articles') !!} {{-- see app/http/helpers.php --}}
+				@endif
 			</div>
 		</div>
 	</div>
+	
+	@include('articles.partials.tags')
+
 	<div class="row">
 		<div class="col-sm-12">
-			{!! nl2br($article->post)!!}
+			{!! nl2br($article->post) !!}
 		</div>
 	</div>
 @stop

@@ -24,7 +24,26 @@ class RouteServiceProvider extends ServiceProvider {
 	{
 		parent::boot($router);
 
-		//
+		$router->bind('songs', function($slug)
+		{
+			return \App\Song::whereSlug($slug)->first();
+		});
+
+		$router->bind('articles', function($identifier)
+		{
+			if(is_numeric($identifier))
+			{
+				return \App\Article::published()->whereId($identifier)->first();		
+			}
+			else {
+				return \App\Article::published()->whereSlug($identifier)->first();		
+			}
+		});
+
+		$router->bind('tags', function($name)
+		{
+			return \App\Tag::whereName($name)->first();
+		});
 	}
 
 	/**

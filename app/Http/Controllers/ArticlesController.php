@@ -13,13 +13,9 @@ class ArticlesController extends Controller {
 
 	private $article;
 
-	public function __construct() 
-	{
-		$this->middleware('auth', ['only' => 'create']);
-	}
-
 	public function __construct(Article $article) 
 	{
+		$this->middleware('auth', ['only' => 'create']);
 		$this->article = $article;
 	}
 
@@ -39,7 +35,7 @@ class ArticlesController extends Controller {
 		$articles = $this->article
 						->latest('published_at')
 						->published()
-						->get();
+						->paginate(10);
 		}
 		return view('articles.index', compact('articles'));
 	}
@@ -51,7 +47,8 @@ class ArticlesController extends Controller {
 	 */
 	public function create()
 	{
-		return view('articles.create');
+		$tags = \App\Tag::lists('name', 'id');
+		return view('articles.create', compact('tags'));
 	}
 
 	/**
@@ -62,7 +59,11 @@ class ArticlesController extends Controller {
 	public function store(Article $article, ArticleRequest $request)
 	{
 		//$article->create($request->all());
-		\Auth::user()->articles()->save( new Article( $request->all()) );
+		$article = \Auth::user()->articles()->create( $request->all() );
+
+		$article->tags()->attach( $request->input('tag_list') );
+
+		\Session::flash('flash_message', 'Article has been created successfully.');
 
 		return redirect()->route('articles.index');
 	}
@@ -89,7 +90,8 @@ class ArticlesController extends Controller {
 	 */
 	public function edit(Article $article)
 	{
-		return view('articles.edit', compact('article'));
+		$tags = \App\Tag::lists('name', 'id');
+		return view('articles.edit', compact('article', 'tags'));
 	}
 
 	/**
@@ -102,6 +104,8 @@ class ArticlesController extends Controller {
 	{
 		$article->update($request->all());
 
+		$article->tags()->sync( $request->input('tag_list') );
+
 		return redirect()->route('articles.index');
 	}
 
@@ -111,9 +115,13 @@ class ArticlesController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy(Article $article)
 	{
-		//
+		$article->delete($article);
+
+		\Session::flash('flash_message', 'Article has been deleted successfully.');
+
+		return redirect()->route('articles.index');
 	}
 
 }

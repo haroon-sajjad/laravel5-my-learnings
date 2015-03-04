@@ -11,7 +11,7 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12">
-			{!! Form::open(['route' => 'articles.store']) !!}
+			{!! Form::model($article = new \App\Article, ['route' => 'articles.store']) !!}
 				@include('articles.partials.form', ['submitBtnTxt' => 'Create Article'])
 			{!! Form::close() !!}
 		</div>

@@ -21,10 +21,7 @@ Route::controllers([
 ]);
 
 
-Route::bind('songs', function($slug)
-{
-	return App\Song::whereSlug($slug)->first();
-});
+
 
 /*Route::get('songs', 'SongsController@index');
 Route::get('songs/{song}', 'SongsController@show');
@@ -43,11 +40,10 @@ Route::resource('songs', 'SongsController', [
 	]
 ]);
 
-Route::bind('articles', function($slug)
-{
-	return App\Article::whereSlug($slug)->first();
-});
+
 Route::resource('articles', 'ArticlesController', [
 	'names' => []
 ]);
 Route::get('/users/{user}/articles', 'ArticlesController@index');
+
+Route::get('tags/{tags}', 'TagsController@show');
