@@ -2,11 +2,11 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Tag;
+use App\User;
 
 use Illuminate\Http\Request;
 
-class TagsController extends Controller {
+class UsersController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -15,7 +15,8 @@ class TagsController extends Controller {
 	 */
 	public function index()
 	{
-		//
+		$users = User::paginate(10);
+		return view('users.index', compact('users'));
 	}
 
 	/**
@@ -25,7 +26,8 @@ class TagsController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		$groups = \App\Usergroup::get();
+		return view('users.create', compact('groups'));
 	}
 
 	/**
@@ -44,11 +46,9 @@ class TagsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(Tag $tag)
+	public function show($id)
 	{
-		$articles = $tag->articles()->latest('published_at')->published()->paginate(10);
-
-		return view('articles.index', compact('articles'));
+		return view('users.show');
 	}
 
 	/**
@@ -57,9 +57,9 @@ class TagsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(User $user)
 	{
-		//
+		return view('users.edit', compact('user'));
 	}
 
 	/**

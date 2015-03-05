@@ -41,4 +41,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->hasMany('App\Article');
 	}
 
+	/**
+	 * A user can belongs to many groups.
+	 * 
+	 * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+	 */
+	public function groups() {
+		return $this->belongsToMany('\App\Usergroup');
+	}
+
 }

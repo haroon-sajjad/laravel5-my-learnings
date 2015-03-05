@@ -34,6 +34,8 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="/">Home</a></li>
+					<li>{!! link_to_route('usergroups.index', 'User Groups') !!}</li>
+					<li>{!! link_to_route('users.index', 'Users') !!}</li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -53,10 +55,24 @@
 		</div>
 	</nav>
 
+	@if(Session::has('flash_message')) 
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="alert alert-success"> 
+						{{ Session::get('flash_message') }}
+					</div>
+				</div>
+			</div>
+		</div>
+	@endif
+
 	@yield('content')
 
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+	@yield('scripts')
 </body>
 </html>

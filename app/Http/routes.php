@@ -47,3 +47,7 @@ Route::resource('articles', 'ArticlesController', [
 Route::get('/users/{user}/articles', 'ArticlesController@index');
 
 Route::get('tags/{tags}', 'TagsController@show');
+
+Route::resource('usergroups', 'UsergroupsController');
+
+Route::resource('users', 'UsersController');

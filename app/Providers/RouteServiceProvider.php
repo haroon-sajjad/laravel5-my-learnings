@@ -44,6 +44,16 @@ class RouteServiceProvider extends ServiceProvider {
 		{
 			return \App\Tag::whereName($name)->first();
 		});
+
+		$router->bind('usergroups', function($id)
+		{
+			return \App\Usergroup::whereId($id)->first();
+		});
+
+		$router->bind('users', function($id)
+		{
+			return \App\User::whereId($id)->first();
+		});
 	}
 
 	/**
